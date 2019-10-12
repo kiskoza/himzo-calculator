@@ -25,3 +25,8 @@ pub fn run() -> Result<(), JsValue> {
 
     Ok(())
 }
+
+#[wasm_bindgen]
+pub fn count() -> u32 {
+  1
+}

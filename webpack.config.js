@@ -24,5 +24,16 @@ module.exports = {
       crateDirectory: __dirname,
       extraArgs: "--out-name index"
     }),
-  ]
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules|pkg/,
+        use: {
+          loader: "babel-loader"
+        }
+      }
+    ]
+  }
 };
