@@ -1,11 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import HelloWorld from './components/HelloWorld.js';
+import Calculator from './components/Calculator.js';
 
 import("../pkg").then(module => {
-  module.run();
-  const wrapper = document.getElementById("app");
-  wrapper ? ReactDOM.render(<HelloWorld wasm={module}/>, wrapper) : false;
-});
+  let order = module.Order.new();
 
-console.log('I\'m running and waiting for the wasm code!');
+  const wrapper = document.getElementById("app");
+  wrapper ? ReactDOM.render(<Calculator order={order}/>, wrapper) : false;
+});

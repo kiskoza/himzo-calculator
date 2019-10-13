@@ -1,6 +1,7 @@
 use wasm_bindgen::prelude::*;
 use web_sys::console;
 
+mod order;
 
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
 // allocator.
@@ -24,9 +25,4 @@ pub fn run() -> Result<(), JsValue> {
     console::log_1(&JsValue::from_str("Hello world!"));
 
     Ok(())
-}
-
-#[wasm_bindgen]
-pub fn count() -> u32 {
-  1
 }
