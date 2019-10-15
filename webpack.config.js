@@ -1,6 +1,7 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const dist = path.resolve(__dirname, "dist");
 
@@ -24,6 +25,12 @@ module.exports = {
       crateDirectory: __dirname,
       extraArgs: "--out-name index"
     }),
+
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false,
+    }),
   ],
   module: {
     rules: [
@@ -33,6 +40,14 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader"
+        ]
       }
     ]
   }
