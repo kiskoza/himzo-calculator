@@ -15,6 +15,7 @@ class Calculator extends Component {
       price: props.order.price(),
       stitch: 0,
       svie: true,
+      type: 'patch'
     }
   }
 
@@ -76,43 +77,71 @@ class Calculator extends Component {
     });
   }
 
-  changeType = () => {
-    this.state.order.patch(!this.state.patch);
+  changeType = (type) => {
+    this.state.order.patch(type === 'patch');
     this.setState({
-      patch: !this.state.patch,
+      type: type,
       price: this.state.order.price(),
     });
   }
 
   render() {
     return (
-      <div>
-        <p onClick={this.changeSVIE}>
-          Rendelő: {this.state.svie ? "Belsős" : "Külsős"}
-        </p>
-        <p onClick={this.changeType}>
-          Típus: {this.state.patch ? "Folt" : "Hozott anyag"}
-        </p>
-        <p>
-          Rendelés darabszám: <input value={this.state.count} type="number" min="0" onChange={this.changeCount} />
-        </p>
-        {this.state.patch ?
-          <p>
-            Átmérő: <input value={this.state.diameter} type="number" min="0" onChange={this.changeDiameter} />
-          </p> :
-          <p>
-            Minta darab: <input value={this.state.piece} type="number" min="0" onChange={this.changePiece} />
-          </p>
-        }
-        <p>
-          Öltések: <input value={this.state.stitch} type="number" min="0" onChange={this.changeStitch} />
-        </p>
-        <p>
-          Öltések (fancy): <input value={this.state.fancy_stitch} type="number" min="0" onChange={this.changeFancyStitch} />
-        </p>
-        <p>
-          Összár: {this.state.price} ({Math.ceil(this.state.price / this.state.count)} / darab)
-        </p>
+      <div className="calculator">
+        <div className="tabs">
+          <span onClick={(e) => this.changeType('patch')} data-active={this.state.type == 'patch'}>
+            Folt
+          </span>
+          <span onClick={(e) => this.changeType('tee')} data-active={this.state.type == 'tee'}>
+            Póló
+          </span>
+          <span onClick={(e) => this.changeType('hoodie')} data-active={this.state.type == 'hoodie'}>
+            Pulcsi
+          </span>
+          <span onClick={(e) => this.changeType('else')} data-active={this.state.type == 'else'}>
+            Más..
+          </span>
+        </div>
+        <div className="plane">
+          <button onClick={this.changeSVIE} className={this.state.svie ? "offset-1 active" : "offset-1"}>
+            {this.state.svie ? "Belsős" : "Külsős"}
+          </button>
+
+          <label key="count-label">
+            Rendelés darabszám
+          </label>
+          <input key="count-input" value={this.state.count} type="number" min="0" onChange={this.changeCount} />
+
+          {this.state.type === 'patch' ? [
+              <label key="diameter-label">Átmérő (cm)</label>,
+              <input key="diameter-input"value={this.state.diameter} type="number" min="0" onChange={this.changeDiameter} />
+            ] : [
+              <label key="piece-label">Minta darabszám</label>,
+              <input key="piece-input"value={this.state.piece} type="number" min="0" onChange={this.changePiece} />
+            ]
+          }
+
+          <label key="stitch-label">
+            Öltések
+          </label>
+          <input key="stitch-input" value={this.state.stitch} type="number" min="0" step="100" onChange={this.changeStitch} />
+
+          <label key="fancy-stitch-label">
+            Öltések (fancy cérna)
+          </label>
+          <input key="fancy-stitch-input" value={this.state.fancy_stitch} type="number" step="50" min="0" onChange={this.changeFancyStitch} />
+      </div>
+      <div className="plane">
+          <div className="sum">
+            Összár
+          </div>
+          <div>
+            {this.state.price} JMF
+          </div>
+          <div className="offset-1">
+            ({this.state.count == 0 ? 0: Math.ceil(this.state.price / this.state.count)} / db)
+          </div>
+        </div>
       </div>
     );
   }
