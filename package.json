@@ -1,12 +1,12 @@
 {
-  "author": "You <you@example.com>",
-  "name": "rust-webpack-template",
+  "author": "Koza <kiskoza@gmail.com>",
+  "name": "himzo-argep",
   "version": "0.1.0",
   "scripts": {
-    "build": "rimraf dist pkg && webpack -p",
-    "heroku-postbuild": "rustup target add wasm32-unknown-unknown && webpack -p",
-    "start-dev": "rimraf dist pkg && webpack-dev-server --open -d",
-    "start": "node server.js",
+    "postinstall": "rustup target add wasm32-unknown-unknown",
+    "clean": "rimraf dist pkg",
+    "build": "npm run clean && webpack -p",
+    "dev-server": "npm run clean && webpack-dev-server --open -d",
     "test": "cargo test && wasm-pack test --headless"
   },
   "devDependencies": {
@@ -28,7 +28,6 @@
     "webpack-dev-server": "^3.7.1"
   },
   "dependencies": {
-    "express": "^4.17.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   }
